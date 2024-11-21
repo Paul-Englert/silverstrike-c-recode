@@ -4,4 +4,5 @@ recode of moppi1's silver strike in c (a REAL programming language)
 
 # Building
 Bootstrap build.c using gcc build.c -o build.exe \
-Create a libs directory to the repository root and copy libraylib.a there
+Create a libs directory to the repository root and copy libraylib.a there \
+Run build.exe
