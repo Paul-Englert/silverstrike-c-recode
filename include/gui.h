@@ -2,14 +2,16 @@
 #define _GRAPHICS_H_
 
 typedef struct {
-    int width, height;
-} Window;
-
-typedef struct {
     int x, y, dX, dY;
 } MouseInfo;
 
-typedef void (*DrawRoutine)(Window);
+typedef struct {
+    int width, height;
+    const char *title;
+    int fps;
+} Window;
+
+typedef void (*DrawRoutine)(void);
 
 typedef void (*KeyHandler)(int);
 
@@ -21,12 +23,10 @@ typedef struct {
     MouseHandler mouse_handler;
 } Scene;
 
-void InitGraphics(void);
-
-void DestroyWindow(void);
+void InitWindow(Window window, Scene scene);
 
 void SetScene(Scene scene);
 
-void DrawGraphics(void);
+void UpdateWindow(void);
 
 #endif // _Graphics_H_
