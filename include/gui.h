@@ -1,8 +1,13 @@
 #ifndef _GRAPHICS_H_
 #define _GRAPHICS_H_
 
+#include <stdbool.h>
+
 typedef struct {
     int x, y, dX, dY;
+    bool states[2];
+    bool was_pressed[2];
+    bool was_released[2];
 } MouseInfo;
 
 typedef struct {
@@ -23,7 +28,7 @@ typedef struct {
     MouseHandler mouse_handler;
 } Scene;
 
-void InitWindow(Window window, Scene scene);
+void InitGraphics(Window window, Scene scene);
 
 void SetScene(Scene scene);
 

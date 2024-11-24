@@ -1,4 +1,5 @@
 #include "../include/gui.h"
+#include "../include/raylib.h"
 
 #include <stdio.h>
 
@@ -15,7 +16,7 @@ void MouseFn(MouseInfo mouse_info) {
 }
 
 int main(void) {
-    InitWindow({0,0,"Test", 60}, {DrawFn, KeyFn, MouseFn});
+    InitGraphics((Window) {0,0,"Test", 60}, (Scene) {DrawFn, KeyFn, MouseFn});
     while (!WindowShouldClose()) {
         UpdateWindow();
     }
