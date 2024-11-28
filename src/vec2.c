@@ -80,7 +80,7 @@ void m_Vec2_Rotate(Vec2 *v, float angle) {
 
 float Vec2_GetAngle(Vec2 v1, Vec2 v2) {
     float dotp = Vec2_DotP(v1, v2);
-    float m1 = Vec2_Magnitude(v1), m2 = Vec_Magnitude(v2);
+    float m1 = Vec2_Magnitude(v1), m2 = Vec2_Magnitude(v2);
     float cos = dotp / (m1 * m2);
     return acosf(cos);
 }

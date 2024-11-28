@@ -1,5 +1,6 @@
 #include "../include/gui.h"
 #include "../include/raylib.h"
+#include "../include/utils.h"
 
 #include <stdio.h>
 
