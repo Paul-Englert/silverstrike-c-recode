@@ -2,6 +2,12 @@
 
 #include <math.h>
 
+static float PI = 3.14159265359;
+
+static float Deg2Rad(float degrees) {
+    return degrees * (PI/180);
+}
+
 Vec2 Vec2_Add(Vec2 v1, Vec2 v2) {
     return (Vec2) {v1.x + v2.x, v1.y + v2.y};
 }
@@ -22,12 +28,18 @@ Vec2 Vec2_Normalize(Vec2 v) {
     return Vec2_Div(v, Vec2_Magnitude(v));
 }
 
+Vec2 Vec2_Rotate(Vec2 v, float angle) {
+    float rad = Deg2Rad(angle);
+    float cos = cosf(rad), sin = sinf(rad);
+    return (Vec2) {cos*v.x - sin*v.y, sin*v.x + cos*v.y};
+}
+
 float Vec2_DotP(Vec2 v1, Vec2 v2) {
     return v1.x * v2.x + v1.y * v2.y;
 }
 
 float Vec2_Magnitude(Vec2 v) {
-    return sqrtf((float)(v.x*v.x + v.y*v.y));
+    return sqrtf(v.x*v.x + v.y*v.y);
 }
 
 float Vec2_Magnitude_Sq(Vec2 v) {
@@ -56,4 +68,19 @@ void m_Vec2_Div(Vec2 *v, float div) {
 
 void m_Vec2_Normalize(Vec2 *v) {
     m_Vec2_Div(v, Vec2_Magnitude(*v));
+}
+
+void m_Vec2_Rotate(Vec2 *v, float angle) {
+    float rad = Deg2Rad(angle);
+    float cos = cosf(rad), sin = sinf(rad);
+    Vec2 current = *v;
+    v->x = cos*current.x - sin*current.y;
+    v->y = sin*current.x + cos*current.y;
+}
+
+float Vec2_GetAngle(Vec2 v1, Vec2 v2) {
+    float dotp = Vec2_DotP(v1, v2);
+    float m1 = Vec2_Magnitude(v1), m2 = Vec_Magnitude(v2);
+    float cos = dotp / (m1 * m2);
+    return acosf(cos);
 }

@@ -20,6 +20,8 @@ Vec2 Vec2_Div(Vec2 v, float div);
 
 Vec2 Vec2_Normalize(Vec2 v);
 
+Vec2 Vec2_Rotate(Vec2 v, float angle);
+
 float Vec2_DotP(Vec2 v1, Vec2 v2);
 
 float Vec2_Magnitude(Vec2 v);
@@ -35,5 +37,9 @@ void m_Vec2_Mult(Vec2 *v, float factor);
 void m_Vec2_Div(Vec2 *v, float div);
 
 void m_Vec2_Normalize(Vec2 *v);
+
+void m_Vec2_Rotate(Vec2 *v, float angle);
+
+float Vec2_GetAngle(Vec2 v1, Vec2 v2);
 
 #endif // _VEC2_H_
