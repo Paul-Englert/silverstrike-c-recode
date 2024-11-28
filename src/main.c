@@ -17,6 +17,7 @@ void MouseFn(MouseInfo mouse_info) {
 }
 
 int main(void) {
+    printf("Hello World");
     InitGraphics((Window) {0,0,"Test", 60}, (Scene) {DrawFn, KeyFn, MouseFn});
     while (!WindowShouldClose()) {
         UpdateWindow();
