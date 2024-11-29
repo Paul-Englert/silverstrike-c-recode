@@ -1,6 +1,8 @@
 #ifndef _VEC2_H_
 #define _VEC2_H_
 
+#include <stdbool.h>
+
 typedef struct {
     float x, y;
 } Vec2;
@@ -41,5 +43,17 @@ void m_Vec2_Normalize(Vec2 *v);
 void m_Vec2_Rotate(Vec2 *v, float angle);
 
 float Vec2_GetAngle(Vec2 v1, Vec2 v2);
+
+typedef struct {
+    Vec2 points[4];
+} Quad;
+
+Vec2 Quad_Center(Quad *quad);
+
+void Quad_Move(Quad *quad, Vec2 vec);
+
+void Quad_Rotate(Quad *quad, Vec2 origin, float angle);
+
+void Quad_Scale(Quad *quad, Vec2 origin, float factor);
 
 #endif // _VEC2_H_

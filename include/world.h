@@ -2,12 +2,14 @@
 #define _WORLD_H_
 
 #include "vec2.h"
-#include "car.h"
 
 //struct for camera
-//stores position (center of image drawn to screen) and zoom
 typedef struct {
+    //center of screen (in world position)
     Vec2 pos;
+    //rotation of camera
+    float rotation;
+    //zoom of camera
     float zoom;
 } Camera2;
 
@@ -24,12 +26,16 @@ typedef struct {
     //needed for physics stuff
     Vec2 center_gravity;
     //positions of the 4 wheels, in order: front left, front right, back left, back right
-    Vec2 wheels[WHEEL_COUNT];
+    Quad wheels[WHEEL_COUNT];
+    Quad body;
 } Car;
+
+Car CreateCar(void);
 
 //struct for a map
 typedef struct {
-
+    Vec2 *track_points;
+    int track_point_count;
 } Map;
 
 //struct for world
@@ -50,7 +56,7 @@ typedef struct {
 //Updates the track, the car, the physics, the everything for this world
 void UpdateWorld(World *world);
 
-//Renders this world to the screen based on the current world's camera's state
+//Renders this world to the screen based on this world's camera's state
 void RenderWorld(World *world);
 
 #endif // _WORLD_H_

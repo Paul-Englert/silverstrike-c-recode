@@ -84,3 +84,33 @@ float Vec2_GetAngle(Vec2 v1, Vec2 v2) {
     float cos = dotp / (m1 * m2);
     return acosf(cos);
 }
+
+Vec2 Quad_Center(Quad *quad) {
+    Vec2 vec = {0};
+    for (char i = 0; i < 4; ++i) {
+        m_Vec2_Add(&vec, quad->points[i]);
+    }
+    return Vec2_Div(vec, 4);
+}
+
+void Quad_Move(Quad *quad, Vec2 vec) {
+    for (char i = 0; i < 4; ++i) {
+        m_Vec2_Add(&quad->points[i], vec);
+    }
+}
+
+void Quad_Rotate(Quad *quad, Vec2 origin, float angle) {
+    for (char i = 0; i < 4; ++i) {
+        Vec2 delta = Vec2_Sub(quad->points[i], origin);
+        m_Vec2_Rotate(&delta, angle);
+        quad->points[i] = Vec2_Add(delta, origin);
+    }
+}
+
+void Quad_Scale(Quad *quad, Vec2 origin, float factor) {
+    for (char i = 0; i < 4; ++i) {
+        Vec2 delta = Vec2_Sub(quad->points[i], origin);
+        m_Vec2_Mult(&delta, factor);
+        quad->points[i] = Vec2_Add(delta, origin);
+    }
+}

@@ -6,8 +6,20 @@
 #include <stdio.h>
 #include <math.h>
 
-#define _BEIGE (Color) {0xde, 0xe2, 0xe6, 0xFF}
-#define _GREY (Color) {0x34, 0x3a, 0x40, 0xFF}
+#define _BEIGE      (Color) {0xde, 0xe2, 0xe6, 0xFF}
+#define _GREY       (Color) {0x34, 0x3a, 0x40, 0xFF}
+
+static Vec2 World2Screen(Camera2 camera, Vec2 origin) {
+
+}
+
+static void RenderMap(World *world) {
+
+}
+
+static void RenderCar(World *world) {
+
+}
 
 void RenderWorld(World *world) {
     //only testing for now
@@ -40,12 +52,28 @@ void UpdateWorld(World *world) {
         world->delta_time = now - world->last_tick;
         world->last_tick = now;
     }
-    //sync camera and car position
+    //sync camera pos with car position and camera rotation with car rotation
     {
+        //TODO extend car's geometry position vector so camera is not in the middle of the screen
         Vec2 direction = Vec2_Sub(world->car.center_geometry, world->camera.pos);
-        float dist = Vec2_Magnitude(direction);
+        float dist = Vec2_Magnitude(direction); //distance camera to car
         float adaption_speed = -(1/expf(dist/10)) + 1;
+        adaption_speed *= world->delta_time;
         m_Vec2_Mult(&direction, adaption_speed);
-        m_Vec2_Add(&world->camera, direction);
+        m_Vec2_Add(&world->camera.pos, direction);
+        //TODO sync camera rotation
     }
+}
+
+Car CreateCar(void) {
+    Car car = {0};
+
+    Quad body = {0};
+    body.points[0] = {1,  1};
+    body.points[1] = {1, -1};
+    body.points[2] = {-1, -1};
+    body.points[3] = {-1, 1};
+    car.body = body;
+
+    return car;
 }

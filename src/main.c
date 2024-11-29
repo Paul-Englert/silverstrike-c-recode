@@ -1,6 +1,7 @@
 #include "../include/gui.h"
 #include "../include/raylib.h"
 #include "../include/utils.h"
+#include "../include/world.h"
 
 #include <stdio.h>
 
@@ -14,10 +15,8 @@ void UpdateFn(void) {
     UpdateWorld(&world);
 }
 
-
 int main(void) {
-    printf("Hello World");
-    printf("-----");
+    world.car = CreateCar();
     InitGraphics((Window) {0,0,"Test", 60}, (Scene) {DrawFn, UpdateFn});
     while (!WindowShouldClose()) {
         UpdateWindow();
