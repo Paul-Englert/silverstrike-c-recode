@@ -18,14 +18,11 @@ typedef struct {
 
 typedef void (*DrawRoutine)(void);
 
-typedef void (*KeyHandler)(int);
-
-typedef void (*MouseHandler)(MouseInfo);
+typedef void (*UpdateRoutine)(void);
 
 typedef struct {
     DrawRoutine draw_routine;
-    KeyHandler key_handler;
-    MouseHandler mouse_handler;
+    UpdateRoutine update_routine;
 } Scene;
 
 void InitGraphics(Window window, Scene scene);
@@ -33,5 +30,7 @@ void InitGraphics(Window window, Scene scene);
 void SetScene(Scene scene);
 
 void UpdateWindow(void);
+
+MouseInfo MakeMouseInfo(void);
 
 #endif // _Graphics_H_

@@ -1,25 +1,24 @@
 #include "../include/gui.h"
 #include "../include/raylib.h"
 #include "../include/utils.h"
+#include "../include/world.h"
 
 #include <stdio.h>
 
+static World world = {0};
+
 void DrawFn(void) {
-    ClearBackground(RAYWHITE);
+    RenderWorld(&world);
 }
 
-void KeyFn(int key) {
-    printf("key pressed: %d\n", key);
-}
-
-void MouseFn(MouseInfo mouse_info) {
-
+void UpdateFn(void) {
+    UpdateWorld(&world);
 }
 
 int main(void) {
-    InitGraphics((Window) {0,0,"Test", 60}, (Scene) {DrawFn, KeyFn, MouseFn});
+    InitGraphics((Window) {0,0,"Test", 60}, (Scene) {DrawFn, UpdateFn});
     while (!WindowShouldClose()) {
         UpdateWindow();
     }
     CloseWindow();
-}
+} 

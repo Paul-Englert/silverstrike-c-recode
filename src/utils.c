@@ -20,10 +20,6 @@ float SquareRoot(float x) {
     return approx;
 }
 
-Memory Memory_From(void *src) {
-    return (Memory) {src, 0};
-}
-
 const char *ReadString(Memory *memory) {
     byte *bytes = memory->src;
     char *str_src = &bytes[memory->offset];

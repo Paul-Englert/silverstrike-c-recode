@@ -3,10 +3,11 @@
 
 #include <stddef.h>
 
-static Scene current_scene = {NULL, NULL, NULL};
+static Scene current_scene = {0};
 
 void InitGraphics(Window window, Scene scene) {
-    current_scene = scene;
+    current_scene = scene;   
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(window.width, window.height, window.title);
     SetTargetFPS(window.fps);
 }
@@ -15,7 +16,7 @@ void SetScene(Scene scene) {
     current_scene = scene;
 }
 
-static MouseInfo MakeMouseInfo(void) {
+MouseInfo MakeMouseInfo(void) {
     MouseInfo mouse_info = {0};
     Vector2 mouse_delta = GetMouseDelta();
     mouse_info.x = GetMouseX();
@@ -36,11 +37,5 @@ void UpdateWindow(void) {
     BeginDrawing();
         current_scene.draw_routine();
     EndDrawing();
-    //call mouse handler
-    current_scene.mouse_handler(MakeMouseInfo());
-    //call key handler
-    int key;
-    while ((key = GetKeyPressed()) != 0) {
-        current_scene.key_handler(key);
-    }
+    current_scene.update_routine();
 }

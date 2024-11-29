@@ -13,12 +13,11 @@ float SquareRoot(float x);
 //typdef for a byte type
 typedef char byte;
 
+//struct for continiously reading/writing to memory
 typedef struct {
     void *src;
     int offset;
 } Memory;
-
-Memory Memory_From(void *src);
 
 //reads a string from this memory and advanced the offset
 //string is malloced and has to be free'd by caller
