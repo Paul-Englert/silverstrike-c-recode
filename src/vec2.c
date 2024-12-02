@@ -1,11 +1,17 @@
 #include "../include/vec2.h"
 
 #include <math.h>
+#include <stdio.h>
+#include <stddef.h>
 
-static float PI = 3.14159265359;
+static const float PI = 3.14159265358979323846;
 
 static float Deg2Rad(float degrees) {
     return degrees * (PI/180);
+}
+
+void Vec2_Print(Vec2 v) {
+    printf("Vec2 {x: %f, y: %f}\n", v.x, v.y);
 }
 
 Vec2 Vec2_Add(Vec2 v1, Vec2 v2) {
@@ -87,20 +93,20 @@ float Vec2_GetAngle(Vec2 v1, Vec2 v2) {
 
 Vec2 Quad_Center(Quad *quad) {
     Vec2 vec = {0};
-    for (char i = 0; i < 4; ++i) {
+    for (size_t i = 0; i < 4; ++i) {
         m_Vec2_Add(&vec, quad->points[i]);
     }
     return Vec2_Div(vec, 4);
 }
 
 void Quad_Move(Quad *quad, Vec2 vec) {
-    for (char i = 0; i < 4; ++i) {
+    for (size_t i = 0; i < 4; ++i) {
         m_Vec2_Add(&quad->points[i], vec);
     }
 }
 
 void Quad_Rotate(Quad *quad, Vec2 origin, float angle) {
-    for (char i = 0; i < 4; ++i) {
+    for (size_t i = 0; i < 4; ++i) {
         Vec2 delta = Vec2_Sub(quad->points[i], origin);
         m_Vec2_Rotate(&delta, angle);
         quad->points[i] = Vec2_Add(delta, origin);
@@ -108,7 +114,7 @@ void Quad_Rotate(Quad *quad, Vec2 origin, float angle) {
 }
 
 void Quad_Scale(Quad *quad, Vec2 origin, float factor) {
-    for (char i = 0; i < 4; ++i) {
+    for (size_t i = 0; i < 4; ++i) {
         Vec2 delta = Vec2_Sub(quad->points[i], origin);
         m_Vec2_Mult(&delta, factor);
         quad->points[i] = Vec2_Add(delta, origin);

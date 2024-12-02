@@ -17,6 +17,7 @@ void UpdateFn(void) {
 
 int main(void) {
     world.car = CreateCar();
+    world.camera.zoom = 1;
     InitGraphics((Window) {0,0,"Test", 60}, (Scene) {DrawFn, UpdateFn});
     while (!WindowShouldClose()) {
         UpdateWindow();

@@ -3,6 +3,8 @@
 
 #include "vec2.h"
 
+#include <stddef.h>
+
 //struct for camera
 typedef struct {
     //center of screen (in world position)
@@ -51,6 +53,7 @@ typedef struct {
     double last_tick;
     //time elapsed since last UpdateWorld call, set right at the beginning of UpdateWorld
     double delta_time;
+    size_t tick_count;
 } World;
 
 //Updates the track, the car, the physics, the everything for this world

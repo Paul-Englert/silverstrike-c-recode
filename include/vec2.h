@@ -3,6 +3,8 @@
 
 #include <stdbool.h>
 
+#define DEG2RAD (180/3.14159265359)
+
 typedef struct {
     float x, y;
 } Vec2;
@@ -11,6 +13,8 @@ typedef struct {
 //functions prefixed with 'm' take their first argument via pointer and mutate that vector rather than returning a new one
 
 //Vec2 functions
+
+void Vec2_Print(Vec2 v);
 
 Vec2 Vec2_Add(Vec2 v1, Vec2 v2);
 

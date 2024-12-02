@@ -7,8 +7,8 @@ typedef struct {
 
 } Controls;
 
-void LoadControlsOrDefault(const char *source_path);
+void LoadControlsOrDefault(Controls *controls, const char *source_path);
 
-Controls SaveControlsToFile(Controls controls, const char *target_path);
+void SaveControlsToFile(Controls controls, const char *target_path);
 
 #endif // _CONTROLS_H_

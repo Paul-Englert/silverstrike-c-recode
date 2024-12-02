@@ -9,8 +9,30 @@
 #define _BEIGE      (Color) {0xde, 0xe2, 0xe6, 0xFF}
 #define _GREY       (Color) {0x34, 0x3a, 0x40, 0xFF}
 
-static Vec2 World2Screen(Camera2 camera, Vec2 origin) {
+#define ZOOM_CONST (1080/30)
 
+typedef struct {
+    double sin, cos;
+    Vec2 screen_half;
+    Vec2 position;
+    float zoom;
+} CameraSnapshot;
+
+static CameraSnapshot MakeCameraSnapshot(Camera2 *camera) {
+    return (CameraSnapshot) {sinf((camera->rotation)*DEG2RAD), cosf((camera->rotation)*DEG2RAD), (Vec2){GetRenderWidth()/2, GetRenderHeight()/2}, camera->pos, camera->zoom};
+}
+
+static Vec2 World2Screen(const CameraSnapshot *camera, Vec2 origin) {
+    m_Vec2_Sub(&origin, camera->position);
+    origin = (Vec2){camera->cos*origin.x - camera->sin*origin.y, camera->sin*origin.x + camera->cos*origin.y};
+    m_Vec2_Mult(&origin, camera->zoom * ZOOM_CONST);
+
+    //mirror y coordinate
+    origin.y *= -1;
+
+    //shift coordinate system
+    m_Vec2_Add(&origin, camera->screen_half);
+    return origin;
 }
 
 static void RenderMap(World *world) {
@@ -22,35 +44,29 @@ static void RenderCar(World *world) {
 }
 
 void RenderWorld(World *world) {
-    //only testing for now
-    //draws a chess board
     ClearBackground(RAYWHITE);
-    DrawFPS(10,10);
-    const int width = GetRenderWidth(), height = GetRenderHeight();
-    //printf("height: %d, width %d\n", height, width);
-    const int size = width/10;
-    int y = -size*2, x = 0;
-    bool flag = false;
-    while (y < height + size*2) {
-        int shift_x = (int)world->camera.pos.x % (2*size), shift_y = (int)world->camera.pos.y % (2*size);
-        int index = flag ? 0 : 1;
-        x = -size*2;
-        while (x < width + size*2) {
-            DrawRectangle(x + shift_x, y + shift_y, size, size, index%2 == 0 ? _BEIGE : _GREY);
-            x += size;
-            ++index;
+    const CameraSnapshot camera = MakeCameraSnapshot(&world->camera);
+    Quad q = world->car.body;
+    for (int i = 0; i < 4; ++i) {
+        bool flag = false;
+        Vec2 p1 = World2Screen(&camera, q.points[i]);
+        if (i == 3) {
+            i = 0;
+            flag = true;
         }
-        y += size;
-        flag = !flag;
+        Vec2 p2 = World2Screen(&camera, q.points[i+1]);
+        DrawLine((int)p1.x, (int)p1.y, (int)p2.x, (int)p2.y, _GREY);
+        if (flag) break;
     }
 }
 
 void UpdateWorld(World *world) {
-    //sync delta time
+    //sync delta time and tick count
     {
         double now = GetTime();
         world->delta_time = now - world->last_tick;
         world->last_tick = now;
+        ++world->tick_count;
     }
     //sync camera pos with car position and camera rotation with car rotation
     {
@@ -69,10 +85,10 @@ Car CreateCar(void) {
     Car car = {0};
 
     Quad body = {0};
-    body.points[0] = {1,  1};
-    body.points[1] = {1, -1};
-    body.points[2] = {-1, -1};
-    body.points[3] = {-1, 1};
+    body.points[0] = (Vec2){1,  1};
+    body.points[1] = (Vec2){1, -1};
+    body.points[2] = (Vec2){-1, -1};
+    body.points[3] = (Vec2){-1, 1};
     car.body = body;
 
     return car;
