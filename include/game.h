@@ -6,7 +6,7 @@
 #include "world.h"
 
 struct {
-    World *world current_world;
+    World current_world;
     Controls controls;
     Garage garage;
 } Game;

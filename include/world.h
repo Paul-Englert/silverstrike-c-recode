@@ -40,6 +40,8 @@ typedef struct {
     int track_point_count;
 } Map;
 
+void LoadMap(Map *destination, const char *src_file);
+
 //struct for world
 //contains everything
 typedef struct {
@@ -53,6 +55,7 @@ typedef struct {
     double last_tick;
     //time elapsed since last UpdateWorld call, set right at the beginning of UpdateWorld
     double delta_time;
+    //tick count since race start
     size_t tick_count;
 } World;
 

@@ -9,8 +9,9 @@
 #define _BEIGE      (Color) {0xde, 0xe2, 0xe6, 0xFF}
 #define _GREY       (Color) {0x34, 0x3a, 0x40, 0xFF}
 
-#define ZOOM_CONST (1080/30)
+#define ZOOM_CONST (GetScreenHeight()/30)
 
+//struct that caches values for camera transformation so they do not have to be recalculated for every operation
 typedef struct {
     double sin, cos;
     Vec2 screen_half;
@@ -18,6 +19,7 @@ typedef struct {
     float zoom;
 } CameraSnapshot;
 
+//calculates all values for rendering from the state of the camera
 static CameraSnapshot MakeCameraSnapshot(Camera2 *camera) {
     return (CameraSnapshot) {sinf((camera->rotation)*DEG2RAD), cosf((camera->rotation)*DEG2RAD), (Vec2){GetRenderWidth()/2, GetRenderHeight()/2}, camera->pos, camera->zoom};
 }
